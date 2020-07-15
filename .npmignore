@@ -1,0 +1,4 @@
+*
+!lib/**/*.js
+!README.markdown
+!package.json

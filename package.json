@@ -1,0 +1,57 @@
+{
+  "name": "homebridge-ledenet",
+  "version": "1.0.0-beta.0",
+  "description": "LEDENET (RGB-CCT) Platform for Homebridge",
+  "author": "Shaun Harrison (@shnhrrsn)",
+  "license": "MIT",
+  "main": "lib/registerPlatform.js",
+  "scripts": {
+    "code:typecheck": "tsc --noEmit",
+    "code:format": "prettier --write **/*.ts *.json *.yaml .babelrc *.markdown",
+    "util": "node utils/util.js",
+    "testharness": "node utils/util.js testharness",
+    "build": "tsc --noEmit && rm -fr lib && babel src --out-dir lib --extensions .ts --source-maps inline",
+    "prepack": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shnhrrsn/homebridge-ledenet.git"
+  },
+  "keywords": [
+    "homebridge-platform",
+    "homebridge-plugin",
+    "ledenet",
+    "lightstrip",
+    "magichome"
+  ],
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "color-convert": "^2.0.1",
+    "debug": "^4.1.1",
+    "rxjs": "^6.5.5"
+  },
+  "engines": {
+    "homebridge": ">=1.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-dynamic-import": "^7.10.4",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
+    "@babel/plugin-proposal-numeric-separator": "^7.10.4",
+    "@babel/plugin-proposal-optional-chaining": "^7.10.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@babel/register": "^7.10.5",
+    "@types/color-convert": "^1.9.0",
+    "@types/debug": "^4.1.5",
+    "@types/node": "^13.1.6",
+    "dotenv": "^8.2.0",
+    "homebridge": "^1.0.4",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.6",
+    "udp-proxy": "^1.2.0"
+  }
+}

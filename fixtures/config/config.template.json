@@ -1,0 +1,20 @@
+{
+  "bridge": {
+    "name": "Homebridge",
+    "username": "AA:BB:CC:DD:EE:FF",
+    "port": 51826,
+    "pin": "031-45-154"
+  },
+  "platforms": [
+    {
+      "platform": "ledenet",
+      "name": "ledenet",
+      "accessories": [
+        {
+          "name": "lightstrip",
+          "ip": "10.0.1.102"
+        }
+      ]
+    }
+  ]
+}
