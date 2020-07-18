@@ -33,21 +33,22 @@ export default class BaseDriver {
 			_filter = responseFilter
 		}
 
-		return new Promise(resolve => {
-			this.ledenet
-				.pipe(
-					filter(values => _filter(values[0] !== 0xf0 ? values : values.slice(1))),
-					first(),
-				)
-				.subscribe(values => {
-					if (values[0] === 0xf0) {
-						// Byte that sometypes gets prepended, unclear if it means ack or error
-						values = values.slice(1)
-					}
+		const promise = this.ledenet
+			.pipe(
+				filter(values => _filter(values[0] !== 0xf0 ? values : values.slice(1))),
+				first(),
+			)
+			.toPromise()
+			.then(values => {
+				if (values[0] === 0xf0) {
+					// Byte that sometypes gets prepended, unclear if it means ack or error
+					values = values.slice(1)
+				}
 
-					resolve(values)
-				})
-			this.ledenet.next(payload)
-		})
+				return values
+			})
+		this.ledenet.next(payload)
+
+		return promise
 	}
 }

@@ -72,7 +72,9 @@ export class Accessory {
 			return
 		}
 
-		this.driver.statusObservable.subscribe(this.onStatus.bind(this))
+		this.driver.statusObservable.subscribe(this.onStatus.bind(this), error => {
+			this.log.error('Status error', error)
+		})
 
 		this.powerState = registerCharacteristic(service, Characteristic.On, {
 			get: this.getPowerState.bind(this),
