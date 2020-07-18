@@ -5,10 +5,10 @@ import {
 	CharacteristicSetCallback,
 	CharacteristicValue,
 } from 'homebridge'
+import { IAccessoryConfig, ICctConfig } from '../IAccessoryConfig'
 import RgbCctDriver, { IStatus } from '../Drivers/RgbCctDriver'
 
-import CCT from '../Colors/CCT'
-import { IAccessoryConfig } from '../IAccessoryConfig'
+import Cct from '../Colors/Cct'
 import cct2mired from '../Colors/cct2mired'
 import chalk from 'chalk'
 import getService from '../Support/getService'
@@ -33,14 +33,13 @@ export class Accessory {
 	driver: RgbCctDriver
 	private mode = Mode.HSB
 	private hsb?: HSB
-	private cct?: CCT
+	private cct?: Cct
 	private powerState?: Characteristic
 	private hue?: Characteristic
 	private saturation?: Characteristic
 	private brightness?: Characteristic
 	private colorTemp?: Characteristic
-	private readonly warmTemp = 3000 // TODO: Move to config
-	private readonly coolTemp = 6000
+	private readonly cctConfig: ICctConfig
 
 	constructor(
 		log: Logging,
@@ -53,6 +52,10 @@ export class Accessory {
 		this.platformAccessory = platformAccessory
 		this.config = config
 		this.driver = new RgbCctDriver(config.ip)
+		this.cctConfig = Object.freeze({
+			warmTemp: config?.cct?.warmTemp ?? 3000,
+			coolTemp: config?.cct?.coolTemp ?? 6000,
+		})
 	}
 
 	configure() {
@@ -83,8 +86,8 @@ export class Accessory {
 		})
 
 		this.colorTemp?.setProps({
-			maxValue: kelvin2mired(this.warmTemp),
-			minValue: kelvin2mired(this.coolTemp),
+			maxValue: kelvin2mired(this.cctConfig.warmTemp),
+			minValue: kelvin2mired(this.cctConfig.coolTemp),
 		})
 
 		this.hue = registerCharacteristic(service, Characteristic.Hue, {
@@ -131,11 +134,11 @@ export class Accessory {
 			return
 		}
 
-		callback(undefined, cct2mired(this.cct, this.warmTemp, this.coolTemp))
+		callback(undefined, cct2mired(this.cct, this.cctConfig))
 	}
 
 	private setColorTemperature(value: CharacteristicValue, callback: CharacteristicSetCallback) {
-		this.setCct(mired2Cct(Number(value), this.warmTemp, this.coolTemp), callback)
+		this.setCct(mired2Cct(Number(value), this.cctConfig), callback)
 	}
 
 	private getHue(callback: CharacteristicGetCallback) {
@@ -233,7 +236,7 @@ export class Accessory {
 				warm: warm,
 				cool: 255 - warm,
 			}
-			this.colorTemp?.updateValue(cct2mired(this.cct, this.warmTemp, this.coolTemp))
+			this.colorTemp?.updateValue(cct2mired(this.cct, this.cctConfig))
 		} else {
 			this.cct = { warm: 255, cool: 0 }
 		}
