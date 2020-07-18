@@ -10,7 +10,7 @@
     "code:format": "prettier --write **/*.ts *.json *.yaml .babelrc *.markdown",
     "util": "node utils/util.js",
     "testharness": "node utils/util.js testharness",
-    "build": "tsc --noEmit && rm -fr lib && babel src --out-dir lib --extensions .ts --source-maps inline",
+    "build": "tsc --noEmit && babel src --out-dir lib --delete-dir-on-start --extensions .ts --source-maps inline",
     "prepack": "npm run build"
   },
   "repository": {
