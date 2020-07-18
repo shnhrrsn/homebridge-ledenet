@@ -14,7 +14,7 @@ import chalk from 'chalk'
 import getService from '../Support/getService'
 import hsb2rgb from '../Colors/hsb2rgb'
 import kelvin2mired from '../Colors/kelvin2mired'
-import mired2Cct from '../Colors/mired2Cct'
+import mired2cct from '../Colors/mired2cct'
 import registerCharacteristic from '../Support/registerCharacteristic'
 import rgb2hsb from '../Colors/rgb2hsb'
 
@@ -138,7 +138,7 @@ export class Accessory {
 	}
 
 	private setColorTemperature(value: CharacteristicValue, callback: CharacteristicSetCallback) {
-		this.setCct(mired2Cct(Number(value), this.cctConfig), callback)
+		this.setCct(mired2cct(Number(value), this.cctConfig), callback)
 	}
 
 	private getHue(callback: CharacteristicGetCallback) {

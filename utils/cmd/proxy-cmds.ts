@@ -1,4 +1,4 @@
-import int2Hex from '../../src/Colors/int2Hex'
+import int2hex from '../../src/Colors/int2hex'
 import net from 'net'
 
 const localPort = 5577
@@ -19,11 +19,11 @@ const server = net.createServer(local => {
 	})
 
 	local.on('data', data => {
-		console.log('SEND', Array.from(data).map(int2Hex).join(', '))
+		console.log('SEND', Array.from(data).map(int2hex).join(', '))
 	})
 
 	remote.on('data', data => {
-		console.log('SEND', Array.from(data).map(int2Hex).join(', '))
+		console.log('SEND', Array.from(data).map(int2hex).join(', '))
 	})
 
 	local.on('close', () => {

@@ -2,7 +2,7 @@
 import { Socket } from 'net'
 import { Subscriber, Subscription, Subject, ReplaySubject } from 'rxjs'
 import { AnonymousSubject } from 'rxjs/internal/Subject'
-import int2Hex from '../Colors/int2Hex'
+import int2hex from '../Colors/int2hex'
 import makeDebug from 'debug'
 const debug = makeDebug('LEDENET')
 
@@ -67,7 +67,7 @@ export default class LedenetSubject extends AnonymousSubject<number[]> {
 							const payload = <number[]>Array.from(x!)
 							payload.push(payload.reduce((a, b) => a + b, 0) % 0x100)
 							socket!.write(Buffer.from(payload))
-							debug(`>${this.ip}`, payload.map(int2Hex))
+							debug(`>${this.ip}`, payload.map(int2hex))
 						} catch (e) {
 							this.destination!.error(e)
 						}
@@ -103,7 +103,7 @@ export default class LedenetSubject extends AnonymousSubject<number[]> {
 		})
 
 		socket.on('data', data => {
-			debug(`<${this.ip}`, Array.from(data).map(int2Hex))
+			debug(`<${this.ip}`, Array.from(data).map(int2hex))
 			try {
 				observer.next(Array.from(data))
 			} catch (err) {
